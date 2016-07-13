@@ -7,4 +7,4 @@ with open('input.txt', 'r') as f:
 		else:
 			i -= 1
 
-	print(i)
+	print('floor:', i)
