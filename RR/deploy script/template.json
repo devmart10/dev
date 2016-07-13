@@ -1,0 +1,650 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_BackEnd_Web1_adminPassword": {
+            "defaultValue": "RR-sqa1!",
+            "type": "SecureString"
+        },
+        "virtualMachines_BackEnd1_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_BackEnd1_primary": {
+            "defaultValue": "RR-sqa1!",
+            "type": "SecureString"
+        },
+        "virtualMachines_FrontEnd1_adminPassword": {
+            "defaultValue": "RR-sqa1!",
+            "type": "SecureString"
+        },
+        "virtualMachines_BackEnd_Web1_name": {
+            "defaultValue": "BackEnd-Web1",
+            "type": "String"
+        },
+        "virtualMachines_BackEnd1_name": {
+            "defaultValue": "BackEnd1",
+            "type": "String"
+        },
+        "virtualMachines_FrontEnd1_name": {
+            "defaultValue": "FrontEnd1",
+            "type": "String"
+        },
+        "vaults_MSVSAZzopm3764qh_name": {
+            "defaultValue": "MSVSAZzopm3764qh",
+            "type": "String"
+        },
+        "networkInterfaces_backend_web1465_name": {
+            "defaultValue": "backend-web1465",
+            "type": "String"
+        },
+        "networkInterfaces_backend1655_name": {
+            "defaultValue": "backend1655",
+            "type": "String"
+        },
+        "networkInterfaces_frontend1178_name": {
+            "defaultValue": "frontend1178",
+            "type": "String"
+        },
+        "networkSecurityGroups_NSG_BackEnd_name": {
+            "defaultValue": "NSG_BackEnd",
+            "type": "String"
+        },
+        "networkSecurityGroups_NSG_FrontEnd_name": {
+            "defaultValue": "NSG_FrontEnd",
+            "type": "String"
+        },
+        "publicIPAddresses_BackEnd_Web1_name": {
+            "defaultValue": "BackEnd-Web1",
+            "type": "String"
+        },
+        "publicIPAddresses_BackEnd1_name": {
+            "defaultValue": "BackEnd1",
+            "type": "String"
+        },
+        "publicIPAddresses_FrontEnd1_name": {
+            "defaultValue": "FrontEnd1",
+            "type": "String"
+        },
+        "virtualNetworks_RR_VNet_Development_PlayGround_name": {
+            "defaultValue": "RR_VNet_Development_PlayGround",
+            "type": "String"
+        },
+        "storageAccounts_rrstorageplayground_name": {
+            "defaultValue": "rrstorageplayground",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Compute/virtualMachines/BackEnd-Web1'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_BackEnd_Web1_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_A1"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2012-R2-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_BackEnd_Web1_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_rrstorageplayground_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_BackEnd_Web1_name'),'201642792831.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_BackEnd_Web1_name')]",
+                    "adminUsername": "rr-admin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "adminPassword": "[parameters('virtualMachines_BackEnd_Web1_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_backend_web1465_name'))]"
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_rrstorageplayground_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_backend_web1465_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Compute/virtualMachines/BackEnd1'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_BackEnd1_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Basic_A2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "SQL2012SP2-WS2012",
+                        "sku": "Standard",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_BackEnd1_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_rrstorageplayground_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_BackEnd1_name'),'2016029122114.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_BackEnd1_name')]",
+                    "adminUsername": "rr-admin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "adminPassword": "[parameters('virtualMachines_BackEnd1_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_backend1655_name'))]"
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_rrstorageplayground_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_backend1655_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Compute/virtualMachines/FrontEnd1'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_FrontEnd1_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_A1"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2012-R2-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_FrontEnd1_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_rrstorageplayground_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_FrontEnd1_name'),'201611111343.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_FrontEnd1_name')]",
+                    "adminUsername": "rr-admin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "adminPassword": "[parameters('virtualMachines_FrontEnd1_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_frontend1178_name'))]"
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_rrstorageplayground_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_frontend1178_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/networkInterfaces/backend-web1465'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_backend_web1465_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.2.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_BackEnd_Web1_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_RR_VNet_Development_PlayGround_name')), '/subnets/BackEnd')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_NSG_BackEnd_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_BackEnd_Web1_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_RR_VNet_Development_PlayGround_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_NSG_BackEnd_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/networkInterfaces/backend1655'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_backend1655_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.2.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_BackEnd1_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_RR_VNet_Development_PlayGround_name')), '/subnets/BackEnd')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_NSG_BackEnd_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_BackEnd1_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_RR_VNet_Development_PlayGround_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_NSG_BackEnd_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/networkInterfaces/frontend1178'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_frontend1178_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_FrontEnd1_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_RR_VNet_Development_PlayGround_name')), '/subnets/FrontEnd')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_NSG_FrontEnd_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_FrontEnd1_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_RR_VNet_Development_PlayGround_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_NSG_FrontEnd_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/networkSecurityGroups/NSG_BackEnd'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_NSG_BackEnd_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-rdp",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-sql",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 1100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-web",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-web-HTTPS",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-webdeploy",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8172",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1200,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-web-intranet",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "81",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/networkSecurityGroups/NSG_FrontEnd'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_NSG_FrontEnd_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-rdp",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-web",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-webdeploy",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8172",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-allow-web-HTTPS",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "default-WCF-NET.TCP-Listener-Adapter",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "808",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1200,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "connectorPortv4xyqr9648",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "30398",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1700,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "forwarderPortsba21r1weo",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "31398",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1800,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "forwarderPortx8651ay38w1c0",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "31399",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1900,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "fileUploadPortrvrl9hytcz",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "32398",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 2000,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/publicIPAddresses/BackEnd-Web1'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_BackEnd_Web1_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('publicIPAddresses_BackEnd_Web1_name')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/publicIPAddresses/BackEnd1'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_BackEnd1_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('publicIPAddresses_BackEnd1_name')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/publicIPAddresses/FrontEnd1'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_FrontEnd1_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('publicIPAddresses_FrontEnd1_name')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/RR_PlayGround/providers/Microsoft.Network/virtualNetworks/RR_VNet_Development_PlayGround'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_RR_VNet_Development_PlayGround_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "FrontEnd",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24"
+                        }
+                    },
+                    {
+                        "name": "BackEnd",
+                        "properties": {
+                            "addressPrefix": "10.0.2.0/24"
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9c67aa44-c6a9-4e1d-ae70-cfbc72844f69/resourceGroups/rr_playground/providers/Microsoft.Storage/storageAccounts/rrstorageplayground'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_rrstorageplayground_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westus",
+            "tags": {},
+            "properties": {},
+            "dependsOn": []
+        }
+    ]
+}
