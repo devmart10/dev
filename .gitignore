@@ -1,4 +1,7 @@
-# User-specific stuff:
+# jetbrains conifg
 .idea/
 **/.idea
+*.iml
 
+# output folders
+**/out
