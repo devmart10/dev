@@ -1,7 +1,9 @@
 # jetbrains conifg
-.idea/
 **/.idea
 *.iml
+
+# sublime
+*.sublime*
 
 # output folders
 **/out
